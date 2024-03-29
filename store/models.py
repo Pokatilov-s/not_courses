@@ -11,7 +11,7 @@ class Category(models.Model):
         return self.title
 
 
-class Courses(models.Model):
+class Course(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)

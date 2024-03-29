@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Courses, Category
+from .models import Course, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -10,6 +10,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Courses
+        model = Course
         fields = '__all__'
         lookup_field = 'uuid'

@@ -1,6 +1,5 @@
 from django.contrib import admin
-from store import models
+from .models import Category, Course
 
-admin.site.register(models.Category)
-admin.site.register(models.Courses)
-
+admin.site.register(Category)
+admin.site.register(Course)
