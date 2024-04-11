@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "store.apps.StoreConfig",
     "rest_framework",
-    "custom_user.apps.CustomUserConfig"
+    "rest_framework.authtoken",
+    "custom_user.apps.CustomUserConfig",
+    "djoser",
 
 ]
 
@@ -139,3 +141,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'custom_user.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
