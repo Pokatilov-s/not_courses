@@ -16,4 +16,4 @@ class CoursesReadOnlyViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,)
+    # authentication_classes = (TokenAuthentication,)

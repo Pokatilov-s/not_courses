@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     "store.apps.StoreConfig",
+    "custom_user.apps.CustomUserConfig",
+    "forge.apps.ForgeConfig",
+
     "rest_framework",
     "rest_framework.authtoken",
-    "custom_user.apps.CustomUserConfig",
     "djoser",
 
 ]
@@ -148,4 +151,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+
 }
