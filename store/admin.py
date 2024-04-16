@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Category, Course
+from .models import UserCourse
 
-admin.site.register(Category)
-admin.site.register(Course)
+
+@admin.register(UserCourse)
+class UserCourseAdmin(admin.ModelAdmin):
+    pass
