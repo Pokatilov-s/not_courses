@@ -16,6 +16,10 @@ class Category(models.Model):
 
 
 class Course(models.Model):
+    class Status(models.TextChoices):
+        DRAFT = 'draft', 'Draft'
+        PUBLISHED = 'published', 'Published'
+
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -24,7 +28,7 @@ class Course(models.Model):
     students_qty = models.IntegerField(default=0)
     reviews_qty = models.IntegerField(default=0)
     author_uuid = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_uuid')
-    status = models.CharField(max_length=20, default="draft")
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
