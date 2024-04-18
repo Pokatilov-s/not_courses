@@ -1,15 +1,19 @@
-from rest_framework import viewsets
-
-
+from rest_framework.generics import CreateAPIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from forge.models import Course, Category
-from .serializers import ReadOnlyCourseSerializer, ReadOnlyCategorySerializer
+from .serializers import ReadOnlyCourseSerializer, ReadOnlyCategorySerializer, UserCourseSerializer
 
 
-class CategoriesViewSet(viewsets.ReadOnlyModelViewSet):
+class CategoriesViewSet(ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = ReadOnlyCategorySerializer
 
 
-class CoursesReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+class CoursesReadOnlyViewSet(ReadOnlyModelViewSet):
     queryset = Course.objects.filter(status='published')
     serializer_class = ReadOnlyCourseSerializer
+
+
+class AddCourseToUser(CreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = UserCourseSerializer
