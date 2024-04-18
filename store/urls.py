@@ -5,7 +5,6 @@ from .views import CoursesReadOnlyViewSet, CategoriesViewSet
 router = routers.DefaultRouter()
 router.register(r'courses', CoursesReadOnlyViewSet, basename='courses')
 router.register(r'categories', CategoriesViewSet)
-print(router.urls)
 
 urlpatterns = [
     path('', include(router.urls))
