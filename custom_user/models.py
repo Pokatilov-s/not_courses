@@ -5,3 +5,6 @@ from django.db import models
 
 class User(AbstractUser):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta(AbstractUser.Meta):
+        db_table = 'users'
