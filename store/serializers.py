@@ -22,4 +22,17 @@ class ReadOnlyCourseSerializer(serializers.ModelSerializer):
 class UserCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCourse
-        fields = '__all__'
+        fields = ('uuid', 'user_uuid', 'course_uuid', 'status')
+        # read_only_fields = ('uuid', 'user_uuid')
+
+    # def create(self, validated_data):
+    #     # Получаем пользователя из контекста запроса
+    #     user = self.context['request'].user
+    #
+    #     # Выводим все атрибуты запроса
+    #     print(user.uuid, user.username)
+    #
+    #     # Добавляем пользователя к данным перед сохранением
+    #     validated_data['user_uuid'] = user
+    #     # Вызываем метод create базового класса для сохранения данных
+    #     return super().create(validated_data)

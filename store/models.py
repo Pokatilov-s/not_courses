@@ -13,4 +13,6 @@ class UserCourse(models.Model):
     class Meta:
         db_table = 'user_courses'
         unique_together = ('user_uuid', 'course_uuid')
-        indexes = [models.Index(fields=['user_uuid'])]
+        indexes = [
+            models.Index(fields=['user_uuid'])
+        ]

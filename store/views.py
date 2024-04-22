@@ -1,4 +1,6 @@
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from forge.models import Course, Category
 from .serializers import ReadOnlyCourseSerializer, ReadOnlyCategorySerializer, UserCourseSerializer
@@ -17,3 +19,5 @@ class CoursesReadOnlyViewSet(ReadOnlyModelViewSet):
 class AddCourseToUser(CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = UserCourseSerializer
+    # authentication_classes = (TokenAuthentication, SessionAuthentication)
+    # permission_classes = (IsAuthenticated,)
