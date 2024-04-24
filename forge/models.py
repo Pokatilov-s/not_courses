@@ -18,7 +18,12 @@ class Category(models.Model):
 class Course(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'draft', 'Draft'
+        MODERATION = 'moderation', 'Moderation'
         PUBLISHED = 'published', 'Published'
+        PASSED = 'passed', 'Passed'
+        FAIL = 'fail', 'Fail'
+        ARCHIVED = 'archived', 'Archived'
+        DELETED = 'deleted', 'Deleted'
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
