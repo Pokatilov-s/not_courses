@@ -22,17 +22,26 @@ class ReadOnlyCourseSerializer(serializers.ModelSerializer):
 class UserCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCourse
-        fields = ('uuid', 'user_uuid', 'course_uuid', 'status')
-        # read_only_fields = ('uuid', 'user_uuid')
+        fields = ('uuid', 'course_uuid', 'status', 'user_uuid')
+        read_only_fields = ('uuid', 'user_uuid')
 
-    # def create(self, validated_data):
-    #     # Получаем пользователя из контекста запроса
-    #     user = self.context['request'].user
-    #
-    #     # Выводим все атрибуты запроса
-    #     print(user.uuid, user.username)
-    #
-    #     # Добавляем пользователя к данным перед сохранением
-    #     validated_data['user_uuid'] = user
-    #     # Вызываем метод create базового класса для сохранения данных
-    #     return super().create(validated_data)
+    def create(self, validated_data):
+        # Вытаскиваем пользователя из контекста запроса
+        user = self.context['request'].user
+        validated_data['user_uuid'] = user
+        course = validated_data.get('course_uuid')
+        # Проверка уникальности записи
+        if UserCourse.objects.filter(user_uuid=user, course_uuid=course).exists():
+            error_message = {
+                "non field errors": {
+                    "message": 'The user is already enrolled in a course.',
+                    "details": {
+                        "user_uuid": user.uuid,
+                        "course_uuid": course.uuid
+                    }
+                 }
+            }
+            raise serializers.ValidationError(error_message)
+            # raise serializers.ValidationError("This user is already enrolled in this course.")
+
+        return super().create(validated_data)
