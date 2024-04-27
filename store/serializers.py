@@ -42,6 +42,19 @@ class UserCourseSerializer(serializers.ModelSerializer):
                  }
             }
             raise serializers.ValidationError(error_message)
-            # raise serializers.ValidationError("This user is already enrolled in this course.")
 
         return super().create(validated_data)
+
+
+class CoursesAddedUserSerializer(serializers.Serializer):
+    uuid = serializers.UUIDField()
+    category_id = serializers.IntegerField()
+    title = serializers.CharField()
+    price = serializers.DecimalField(max_digits=8, decimal_places=2)
+    description = serializers.CharField()
+    students_qty = serializers.IntegerField()
+    reviews_qty = serializers.IntegerField()
+    author_uuid = serializers.UUIDField()
+    status = serializers.CharField()
+    updated_at = serializers.DateTimeField()
+    created_at = serializers.DateTimeField()
