@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 from .views import ForgeCourseViewSet
 
-router = routers.DefaultRouter()
+router = routers.SimpleRouter()
 router.register(r'course', ForgeCourseViewSet)
 
 urlpatterns = [
