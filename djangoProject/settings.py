@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
-
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,11 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)&#gr(edozu8zzk3t*g!h%@a(o2j%85@b0=q%(w*2n3=l3v!(&'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.51']
@@ -94,11 +94,11 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'petprojectdjango',
-        'USER': 'petdjangouser',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',  # 127.0.0.1
-        'PORT': '5432',
+        'NAME': os.getenv('DB_PG_NAME'),
+        'USER': os.getenv('DB_PG_USER'),
+        'PASSWORD': os.getenv('DB_PG_PASSWORD'),
+        'HOST': os.getenv('DB_PG_HOST'),
+        'PORT': os.getenv('DB_PG_PORT'),
     }
 }
 
@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
 }
