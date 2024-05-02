@@ -2,24 +2,40 @@
 {% block title %}ALL Courses{% endblock %}
 
 {% block content %}
-    <h1>Курсы</h1>
+    <div class="container mt-4">
     <div class="row">
-      {% for course in courses %}
-      <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ course.title }}</h5>
-            <p class="card-text">{{ course.description }}</p>
-          </div>
-          <div class="card-footer d-flex justify-content-between align-items-center">
-            <a href="{% url 'course_detail' course.uuid %}" class="btn btn-sm btn-outline-secondary" target="_blank">Подробнее</a>
-            <div>
-              <small class="text-muted">{{ course.price }} р.</small>
-              <button type="button" class="btn btn-sm btn-outline-primary">Купить</button>
+        <!-- Категории -->
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">Категории</a>
+                {% for category in categories %}
+                    <a href="#" class="list-group-item list-group-item-action">{{ category.title }}</a>
+                {% endfor %}
             </div>
-          </div>
         </div>
-      </div>
-      {% endfor %}
+
+        <!-- Курсы -->
+        <div class="col-md-9">
+            <div class="row">
+                {% for course in courses %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.title }}</h5>
+                            <p class="card-text">{{ course.description }}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <a href="{% url 'course_detail' course.uuid %}" class="btn btn-sm btn-outline-secondary" target="_blank">Подробнее</a>
+                            <div>
+                                <small class="text-muted">{{ course.price }} р.</small>
+                                <button type="button" class="btn btn-sm btn-outline-primary">Купить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
     </div>
 {% endblock %}

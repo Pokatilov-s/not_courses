@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from store.services import get_list_published_courses
+
+from forge.models import Category
+from store.services import get_list_published_courses, get_list_categories
 
 
 def index_store(request):
     courses = get_list_published_courses()
-    return render(request, 'front/index_store.html', {'courses': courses})
+    categories = get_list_categories()
+    return render(request, 'front/index_store.html', {'courses': courses, 'categories': categories})
 
 
 def course_detail(request, course_uuid):
