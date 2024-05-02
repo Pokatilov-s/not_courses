@@ -1,3 +1,0 @@
-
-def index(request):
-    pass
