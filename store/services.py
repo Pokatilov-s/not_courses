@@ -6,14 +6,17 @@ from typing import List, Tuple
 
 
 def get_list_published_courses() -> QuerySet[Course]:
+    """Получить список опубликованных курсов"""
     return Course.objects.filter(status='published')
 
 
 def get_list_categories() -> QuerySet[Category]:
+    """Получить список категорий"""
     return Category.objects.all()
 
 
 def get_list_courses_added_to_user(user_uuid: str) -> List[Tuple]:
+    """Получить список курсов добавленных пользователю"""
     def named_tuple_fetchall(cursors):
         # "Return all rows from a cursor as a namedtuple"
         desc = cursors.description
