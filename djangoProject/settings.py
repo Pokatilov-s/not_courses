@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "store.apps.StoreConfig",
     "custom_user.apps.CustomUserConfig",
     "forge.apps.ForgeConfig",
+    "frontend.apps.FrontendConfig",
 
     "rest_framework",
     "rest_framework.authtoken",

@@ -21,8 +21,9 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('frontend.urls')),
     # path('api-auth/', include('rest_framework.urls')),
-    path('', include('store.urls')),
+    path('store/', include('store.urls')),
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('forge/', include('forge.urls')),

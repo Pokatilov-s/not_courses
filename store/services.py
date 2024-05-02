@@ -1,12 +1,16 @@
 from django.db.models.query import QuerySet
+from rest_framework.generics import get_object_or_404
+
 from forge.models import Course, Category
 from django.db import connection
 from collections import namedtuple
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 
-def get_list_published_courses() -> QuerySet[Course]:
-    """Получить список опубликованных курсов"""
+def get_list_published_courses(pk: str = None) -> Union[QuerySet[Course], Course]:
+    """Получить курс или список опубликованных курсов"""
+    if pk is not None:
+        return get_object_or_404(Course, pk=pk)
     return Course.objects.filter(status='published')
 
 
