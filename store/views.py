@@ -2,50 +2,37 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ReadOnlyModelViewSet
-from forge.models import Course, Category
 from .serializers import (ReadOnlyCourseSerializer, ReadOnlyCategorySerializer, UserCourseSerializer,
                           CoursesAddedUserSerializer)
-from django.db import connection
-from collections import namedtuple
+from .services import get_list_published_courses, get_list_categories, get_list_courses_added_to_user
 
 
 class CategoriesViewSet(ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
+    """API endpoint для получения объекта или списка объектов модели Category в режиме ReadOnly"""
+    queryset = get_list_categories()
     serializer_class = ReadOnlyCategorySerializer
 
 
 class CoursesReadOnlyViewSet(ReadOnlyModelViewSet):
-    queryset = Course.objects.filter(status='published')
+    """API endpoint для получения объекта или списка объектов модели Course в режиме ReadOnly"""
+    queryset = get_list_published_courses()
     serializer_class = ReadOnlyCourseSerializer
 
 
 class AddCourseToUser(CreateAPIView):
-    queryset = Course.objects.all()
+    """API endpoint для добавления курсов пользователям"""
     serializer_class = UserCourseSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 
 
 class CoursesAddedUser(ListAPIView):
+    """API endpoint для получения списка курсов добавленных пользователю"""
     serializer_class = CoursesAddedUserSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         user_uuid = self.request.user.uuid
+        return get_list_courses_added_to_user(user_uuid)
 
-        def named_tuple_fetchall(cursors):
-            # "Return all rows from a cursor as a namedtuple"
-            desc = cursors.description
-            nt_result = namedtuple('Result', [col[0] for col in desc])
-            return [nt_result(*row) for row in cursor.fetchall()]
-
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                SELECT c.* FROM user_courses us
-                LEFT JOIN courses c
-                ON c.uuid = us.course_uuid
-                WHERE user_uuid = %s""", [user_uuid])
-            rows = named_tuple_fetchall(cursor)
-
-            return rows
