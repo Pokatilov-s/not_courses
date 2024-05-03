@@ -7,7 +7,7 @@ from .serializers import CourseSerializer
 
 
 class ForgeCourseViewSet(viewsets.ModelViewSet):
-    """API endpoint позволяющий создавать просматривать и редактировать курсы"""
+    """API endpoint позволяющий создавать, просматривать и редактировать курсы принадлежащие автору"""
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
