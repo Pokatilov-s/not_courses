@@ -1,14 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-
 from .models import Course
 from .serializers import CourseSerializer
+from .services import get_list_courses_owned_by_author
 
 
 class ForgeCourseViewSet(viewsets.ModelViewSet):
     """API endpoint позволяющий создавать, просматривать и редактировать курсы принадлежащие автору"""
-    queryset = Course.objects.all()
+    # queryset = Course.objects.all()
     serializer_class = CourseSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -19,7 +19,8 @@ class ForgeCourseViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Получение списка курсов принадлежащих автору"""
-        user = self.request.user
-        # Используя обратную связь получаем все связанные с user объекты из таблицы Courses
-        queryset = Course.objects.filter(author_uuid=user)
-        return queryset
+        return get_list_courses_owned_by_author(self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        pass
+    """Необходимо переопределить все методы """
