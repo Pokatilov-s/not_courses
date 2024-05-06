@@ -34,5 +34,4 @@ def get_list_courses_added_to_user(user_uuid: str) -> List[Tuple]:
             ON c.uuid = us.course_uuid
             WHERE user_uuid = %s""", [user_uuid])
         rows = named_tuple_fetchall(cursor)
-        print(rows)
         return rows
