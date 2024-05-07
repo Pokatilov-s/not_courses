@@ -18,3 +18,4 @@ services:
     depends_on:
       - postgres
     network_mode: host
+    # Используя порты устройства нужно следить чтоб указанные порты были свободны
