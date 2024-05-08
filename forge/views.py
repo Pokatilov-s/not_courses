@@ -2,6 +2,8 @@ from rest_framework import viewsets, generics, status
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+
+from .models import Course
 from .serializers import CourseSerializer, StatusCourseSerializer
 from .services import get_list_courses_owned_by_author, get_courses_owned_by_author
 
@@ -31,9 +33,11 @@ class ForgeCourseViewSet(viewsets.ModelViewSet):
 
 
 class UpdateCourseStatus(generics.UpdateAPIView):
+    """API endpoint дял изменения статуса курса"""
     serializer_class = StatusCourseSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
+    queryset = []
 
     def partial_update(self, request, *args, **kwargs):
         course = get_courses_owned_by_author(user=self.request.user, pk=kwargs.get('pk'))
@@ -41,3 +45,6 @@ class UpdateCourseStatus(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED, data={'detail': 'Метод PUT не разрешён'})
