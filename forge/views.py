@@ -2,8 +2,6 @@ from rest_framework import viewsets, generics, status
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-
-from .models import Course
 from .serializers import CourseSerializer, StatusCourseSerializer
 from .services import get_list_courses_owned_by_author, get_courses_owned_by_author
 
