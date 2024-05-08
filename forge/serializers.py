@@ -8,3 +8,10 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ('uuid', 'category', 'title', 'price', 'description', 'status', 'author_uuid', 'updated_at',
                   'students_qty', 'reviews_qty')
         read_only_fields = ('updated_at', 'status', 'students_qty', 'reviews_qty', 'author_uuid')
+
+
+class StatusCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ('uuid', 'status',)
+        read_only_fields = ('uuid',)
