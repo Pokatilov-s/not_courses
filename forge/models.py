@@ -19,9 +19,9 @@ class Course(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'draft', 'Draft'
         MODERATION = 'moderation', 'Moderation'
-        PUBLISHED = 'published', 'Published'
         PASSED = 'passed', 'Passed'
         FAIL = 'fail', 'Fail'
+        PUBLISHED = 'published', 'Published'
         ARCHIVED = 'archived', 'Archived'
         DELETED = 'deleted', 'Deleted'
 
