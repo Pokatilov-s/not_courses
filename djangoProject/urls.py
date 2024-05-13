@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('frontend.urls')),  # Временная реализация клиентской части
     path('store/', include('store.urls')),
+    path('notify/', include('notifications.urls')),
     path('auth/', include('djoser.urls')),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('forge/', include('forge.urls')),

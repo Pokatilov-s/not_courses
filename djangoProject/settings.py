@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from corsheaders.defaults import default_headers, default_methods
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -16,7 +17,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '192.168.1.51']
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    'localhost',
+    '127.0.0.1',
+    '192.168.1.51',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -32,17 +38,20 @@ INSTALLED_APPS = [
     "custom_user.apps.CustomUserConfig",
     "forge.apps.ForgeConfig",
     "frontend.apps.FrontendConfig",
+    "notifications",
 
     "rest_framework",
     "rest_framework.authtoken",
     "djoser",
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -147,3 +156,17 @@ SPECTACULAR_SETTINGS = {
     'REDOC_DIST': 'SIDECAR',
 
 }
+# CORS
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://192.168.1.51:8000',
+    'http://192.168.1.42:8000',
+]
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = (
+    *default_methods,
+)
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+)
