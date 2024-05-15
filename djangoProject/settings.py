@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.1.51',
 ]
+# ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
