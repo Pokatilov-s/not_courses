@@ -15,7 +15,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', False) in ('True', 'true')
+# DEBUG = False
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
@@ -123,13 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# STATIC_URL = 'static/'
-# STATIC_ROOT = Path(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'static/'
+STATIC_ROOT = Path(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = Path(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -170,7 +169,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.1.51:8000',
     'http://192.168.1.42:8000',
 ]
-# CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOW_METHODS = (
     *default_methods,
 )
