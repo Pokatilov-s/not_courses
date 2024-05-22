@@ -28,7 +28,7 @@
                             <a href="{% url 'course_detail' course.uuid %}" class="btn btn-sm btn-outline-secondary" target="_blank">Подробнее</a>
                             <div>
                                 <small class="text-muted">{{ course.price }} р.</small>
-                                <button type="button" class="btn btn-sm btn-outline-primary">Купить</button>
+                                <button href="{% url 'payment_page'" type="button" class="btn btn-sm btn-outline-primary">Купить</button>
                             </div>
                         </div>
                     </div>
