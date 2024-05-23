@@ -7,4 +7,5 @@ urlpatterns = [
     path('payment/', payment_page, name='payment_page'),
     path('process_payment/', process_payment, name='process_payment'),
     path('success/', success_page, name='success_page'),
+    path('auth/', auth_page, name='auth_page'),
 ]
