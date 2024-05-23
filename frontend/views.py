@@ -42,6 +42,7 @@ def process_payment(request):
         time.sleep(10)
         n = request.body.decode('UTF-8')
         print(n)
+
         return JsonResponse({'status': 'success', 'message': 'Платеж успешно обработан!'})
     return JsonResponse({'status': 'error', 'message': 'Ошибка обработки платежа.'})
 
