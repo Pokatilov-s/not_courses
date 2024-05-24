@@ -90,13 +90,11 @@
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
                 data: JSON.stringify({
-                    cardNumber: $('#cardNumber').val(),
-                    expiryDate: $('#expiryDate').val(),
+                    card_number: $('#cardNumber').val(),
+                    expiry_date: $('#expiryDate').val(),
                     cvv: $('#cvv').val(),
                     bank: $('#bank').val(),
-                    uuid: '{{ course_info.uuid }}',
-                    name: '{{ course_info.name }}',
-                    price: '{{ course_info.price }}'
+                    course_uuid: '{{ course_info.uuid }}',
                 }),
                 success: function(response) {
                     $('#loading').addClass('d-none');
