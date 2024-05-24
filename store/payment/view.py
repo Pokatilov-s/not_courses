@@ -6,9 +6,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from forge.models import Course
 from store.payment.serializers import PaymentSerializer
+from store.models import TransactionsDetails
 
 
-# Платёжка
 def payment_page(request):
     """Сформировать платёжную страницу"""
     course_uuid = request.GET.get('uuid')
@@ -30,6 +30,8 @@ def process_payment(request):
     if serializer.is_valid():
         user = request.user
         valid_data = serializer.validated_data
+        TransactionsDetails.objects.create(**valid_data)
+
 
         return JsonResponse({'status': 'success', 'message': 'Платеж успешно обработан!'})
     return JsonResponse({

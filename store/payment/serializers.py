@@ -44,7 +44,7 @@ class PaymentSerializer(serializers.Serializer):
 
     def validate_course_uuid(self, value):
         try:
-            get_list_published_courses(value)
+            self.course_uuid = get_list_published_courses(value)
             return value
         except Exception as e:
             raise serializers.ValidationError(e)

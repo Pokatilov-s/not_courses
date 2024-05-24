@@ -1,6 +1,5 @@
 from django.db.models.query import QuerySet
 from rest_framework.generics import get_object_or_404
-
 from forge.models import Course, Category
 from django.db import connection
 from collections import namedtuple
