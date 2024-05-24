@@ -12,7 +12,7 @@ urlpatterns = [
     path('add_course/', AddCourseToUser.as_view(), name='add-course'),
     path('my_course/', CoursesAddedUser.as_view(), name='my-course'),
     # Платёжка
-    path('pay/', payment_page, name='payment_page'),
+    path('pay_page/', payment_page, name='payment_page'),
     path('process_payment/', process_payment, name='process_payment'),
     path('success/', success_page, name='success_page'),
 ]
