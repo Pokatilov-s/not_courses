@@ -6,11 +6,18 @@ from collections import namedtuple
 from typing import List, Tuple, Union
 
 
-def get_list_published_courses(pk: str = None) -> Union[QuerySet[Course], Course]:
-    """Получить курс или список опубликованных курсов"""
-    if pk is not None:
-        return get_object_or_404(Course, pk=pk, status='published')
+def get_list_published_courses() -> QuerySet[Course]:
+    """Получить список опубликованных курсов"""
     return Course.objects.filter(status='published')
+
+
+def get_published_course(**kwargs):
+    """Получить опубликованный курс"""
+    return get_object_or_404(Course, **kwargs, status='published')
+
+
+def get_price_course(pk):
+    return Course.objects.get(pk=pk).price
 
 
 def get_list_categories() -> QuerySet[Category]:

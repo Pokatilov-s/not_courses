@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import datetime as dt
-from store.services import get_list_published_courses
+from store.services import get_published_course
 
 
 class PaymentSerializer(serializers.Serializer):
@@ -44,7 +44,7 @@ class PaymentSerializer(serializers.Serializer):
 
     def validate_course_uuid(self, value):
         try:
-            self.course_uuid = get_list_published_courses(value)
+            get_published_course(pk=value)
             return value
         except Exception as e:
             raise serializers.ValidationError(e)

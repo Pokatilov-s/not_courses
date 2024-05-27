@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from forge.models import Course, Category
-from .models import UserCourse
+from .models import UserCourse, TransactionsDetails
 
 
 class ReadOnlyCategorySerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class ReadOnlyCourseSerializer(serializers.ModelSerializer):
 class UserCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCourse
-        fields = ('uuid', 'course_uuid', 'status', 'user_uuid')
+        fields = ('course_uuid', 'status', 'user_uuid')
         read_only_fields = ('uuid', 'user_uuid')
 
     def create(self, validated_data):
@@ -58,3 +58,9 @@ class CoursesAddedUserSerializer(serializers.Serializer):
     status = serializers.CharField()
     updated_at = serializers.DateTimeField()
     created_at = serializers.DateTimeField()
+
+
+class TransactionsDetailsModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TransactionsDetails
+        fields = ('course_uuid', 'price', 'bank',)

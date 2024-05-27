@@ -20,12 +20,13 @@ class UserCourse(models.Model):
         PROCESSING = 'processing', 'Processing'
         SUCCESS = 'success', 'Success'
         ERROR = 'error', 'Error'
+        BY_ADMIN = 'by_admin', 'By_Admin'
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_uuid = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_uuid')
     course_uuid = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_uuid')
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PROCESSING)
-    transaction_uuid = models.ForeignKey(TransactionsDetails, db_column='transaction_uuid', on_delete=models.PROTECT)
+    transaction_uuid = models.ForeignKey(TransactionsDetails, db_column='transaction_uuid', on_delete=models.PROTECT, null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
