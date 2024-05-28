@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from .serializers import (ReadOnlyCourseSerializer, ReadOnlyCategorySerializer, UserCourseSerializer,
                           CoursesAddedUserSerializer)
-from store.servises.get_records_db import (get_list_published_courses, get_list_categories,
+from store.services.get_records_db import (get_list_published_courses, get_list_categories,
                                            get_list_courses_added_to_user)
 
 

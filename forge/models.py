@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from custom_user.models import User
+from forge.services.managers_models import CourseManager
 
 
 class Category(models.Model):
@@ -42,3 +43,5 @@ class Course(models.Model):
 
     class Meta:
         db_table = 'courses'
+
+    objects = CourseManager()

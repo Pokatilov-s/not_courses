@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import datetime as dt
-from store.services import get_published_course
+from forge.services.validate import check_existence_this_course
 
 
 class PaymentSerializer(serializers.Serializer):
@@ -43,8 +43,6 @@ class PaymentSerializer(serializers.Serializer):
 
 
     def validate_course_uuid(self, value):
-        try:
-            get_published_course(pk=value)
-            return value
-        except Exception as e:
-            raise serializers.ValidationError(e)
+        if not check_existence_this_course(pk=value, status='published'):
+            raise serializers.ValidationError('По предоставленному UUID, нет совпадающего опубликованного курса')
+        return value

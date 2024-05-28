@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from forge.models import Course, Category
 from .models import UserCourse, TransactionsDetails
-from .servises.validate_records_db import check_user_enrollment
+from .services.validate_records_db import check_user_enrollment
 
 
 class ReadOnlyCategorySerializer(serializers.ModelSerializer):

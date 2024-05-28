@@ -3,7 +3,7 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import CourseSerializer, StatusCourseSerializer
-from .services import get_list_courses_owned_by_author, get_courses_owned_by_author
+from forge.services.get_records import get_list_courses_owned_by_author, get_courses_owned_by_author
 
 
 class ForgeCourseViewSet(viewsets.ModelViewSet):

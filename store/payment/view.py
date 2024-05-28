@@ -5,9 +5,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from store.payment.serializers import PaymentSerializer
 from store.serializers import TransactionsDetailsModelSerializer
-from store.servises.creating_records_to_db import enroll_user_in_course
-from store.servises.get_records_db import get_published_course, get_price_course
-from store.servises.validate_records_db import check_user_enrollment
+from store.services.creating_records_to_db import enroll_user_in_course
+from store.services.get_records_db import get_published_course, get_price_course
+from store.services.validate_records_db import check_user_enrollment
 
 
 def payment_page(request):
