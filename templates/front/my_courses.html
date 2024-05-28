@@ -1,0 +1,62 @@
+{% extends 'front/navbar.html' %}
+
+{% block title %}
+Мои Курсы
+{% endblock %}
+
+{% block content %}
+<main class="container mt-4">
+    <h1>Мои Курсы</h1>
+    <div id="courses-list" class="mt-3"></div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const authToken = localStorage.getItem('notCoursesPrefix_authToken');
+        const coursesList = document.getElementById('courses-list');
+
+        if (authToken) {
+            fetch('/store/my_course/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${authToken}`,
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 401) {
+                    response.json().then(data => {
+                        if (data.detail === "Недопустимый токен.") {
+                            // Handle invalid token, e.g., redirect to login or show message
+                            coursesList.innerHTML = '<p>Недопустимый токен. Пожалуйста, войдите снова.</p>';
+                        }
+                    });
+                }
+            })
+            .then(data => {
+                if (data) {
+                    data.forEach(course => {
+                        const courseDiv = document.createElement('div');
+                        courseDiv.classList.add('card', 'mb-3');
+                        courseDiv.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${course.title}</h5>
+                                <p class="card-text">${course.description}</p>
+                            </div>
+                        `;
+                        coursesList.appendChild(courseDiv);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        } else {
+            coursesList.innerHTML = '<p>Вы не авторизованы. Пожалуйста, войдите, чтобы увидеть свои курсы.</p>';
+        }
+    });
+</script>
+{% endblock %}

@@ -16,3 +16,8 @@ def course_detail(request, course_uuid):
 # Авторизация и Регистрация
 def auth_page(request):
     return render(request, 'front/auth/auth.html')
+
+
+# курсы пользователя
+def my_courses_page(request):
+    return render(request, 'front/my_courses.html')

@@ -13,10 +13,10 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a href="{% url 'index_store' %}" class="navbar-brand">Courses Shop</a>
-            <span class="navbar-text">
+            <a href="{% url 'my_courses_page' %}" class="navbar-brand">Мои Курсы</a>
+            <span class="navbar-text" id="auth-buttons">
                 <a href="/admin/" class="me-2" target="_blank">Admin</a>
                 <a href="api/schema/swagger-ui/" class="me-5" target="_blank">API</a>
-                <a href="{% url 'auth_page' %}" class="me-2" target="_blank">Войти</a>
             </span>
         </div>
     </nav>
@@ -24,5 +24,60 @@
         {% block content %}
         {% endblock %}
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('notCoursesPrefix_authToken');
+            const authButtonsContainer = document.getElementById('auth-buttons');
+
+            if (authToken) {
+                const logoutBtn = document.createElement('a');
+                logoutBtn.href = "#";
+                logoutBtn.classList.add('me-2');
+                logoutBtn.id = "logout-btn";
+                logoutBtn.innerText = "Выйти";
+                authButtonsContainer.appendChild(logoutBtn);
+
+                logoutBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    fetch('{% url "logout" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${authToken}`,
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({})
+                    }).then(response => {
+                        if (response.ok) {
+                            localStorage.removeItem('notCoursesPrefix_authToken');
+                            window.location.href = "{% url 'index_store' %}";
+                        } else if (response.status === 401) {
+                            response.json().then(data => {
+                                if (data.detail === "Недопустимый токен.") {
+                                    logoutBtn.remove();
+                                    const authBtn = document.createElement('a');
+                                    authBtn.href = "{% url 'auth_page' %}";
+                                    authBtn.classList.add('me-2');
+                                    authBtn.target = "_blank";
+                                    authBtn.innerText = "Войти";
+                                    authBtn.id = "auth-btn";
+                                    authButtonsContainer.appendChild(authBtn);
+                                }
+                            });
+                        }
+                    });
+                });
+            } else {
+                const authBtn = document.createElement('a');
+                authBtn.href = "{% url 'auth_page' %}";
+                authBtn.classList.add('me-2');
+                authBtn.target = "_blank";
+                authBtn.innerText = "Войти";
+                authBtn.id = "auth-btn";
+                authButtonsContainer.appendChild(authBtn);
+            }
+        });
+    </script>
 </body>
 </html>

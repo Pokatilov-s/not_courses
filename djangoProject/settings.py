@@ -16,13 +16,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False) in ('True', 'true')
-# DEBUG = False
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
     'localhost',
     '127.0.0.1',
-    '192.168.1.51',
+    '34.123.106.175',
 ]
 # ALLOWED_HOSTS = ['*']
 
@@ -163,11 +162,17 @@ SPECTACULAR_SETTINGS = {
 
 }
 # CORS
-CORS_ALLOWED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
+    'http://34.123.106.175',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'http://192.168.1.51:8000',
-    'http://192.168.1.42:8000',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://34.123.106.175',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+
 ]
 
 CORS_ALLOW_METHODS = (
