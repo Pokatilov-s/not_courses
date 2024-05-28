@@ -28,7 +28,7 @@ def get_list_categories() -> QuerySet[Category]:
 def get_list_courses_added_to_user(user_uuid: str) -> List[Tuple]:
     """Получить список курсов добавленных пользователю"""
     def named_tuple_fetchall(cursors):
-        # "Return all rows from a cursor as a namedtuple"
+        # Возвращает все строки из курсора в виде namedtuple
         desc = cursors.description
         nt_result = namedtuple('Course', [col[0] for col in desc])
         return [nt_result(*row) for row in cursor.fetchall()]

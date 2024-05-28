@@ -5,7 +5,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from store.payment.serializers import PaymentSerializer
 from store.serializers import TransactionsDetailsModelSerializer
-from store.services import get_published_course, get_price_course
+from store.servises.creating_records_to_db import enroll_user_in_course
+from store.servises.get_records_db import get_published_course, get_price_course
+from store.servises.validate_records_db import check_user_enrollment
 
 
 def payment_page(request):
@@ -24,18 +26,26 @@ def payment_page(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def process_payment(request):
-    """Обработать платёж и добавить курс пользователю"""
+    """API endpoint для обработки платёжа и добавления курса пользователю"""
 
     # Валидация входных данных
     serializer_pay = PaymentSerializer(data=request.data)
     if serializer_pay.is_valid():
-        # user = request.user
         valid_data = serializer_pay.validated_data
     else:
         return JsonResponse({
             'status': 'error',
             'message': 'Ошибка валидации данных',
             'errors': serializer_pay.errors
+        },
+            status=400)
+
+    # Проверка уникальности связи пользователя с курсом
+    user = request.user
+    if check_user_enrollment(user_uuid=user.uuid, course_uuid=valid_data.get('course_uuid')):
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Пользователь уже зарегистрирован на курс',
         },
             status=400)
 
@@ -51,6 +61,12 @@ def process_payment(request):
     if serializer_transaction.is_valid():
         transaction = serializer_transaction.save()
         transaction_uuid = transaction.uuid
+        # Создание связи пользователя с курсом с добавлением transaction_uuid
+        enroll_user_in_course({
+            'user_uuid': user.uuid,
+            'course_uuid': transaction_data.get('course_uuid'),
+            'transaction_uuid': transaction_uuid})
+
         return JsonResponse({
             'status': 'success',
             'message': 'Платеж успешно обработан!',
@@ -65,13 +81,6 @@ def process_payment(request):
             status=400)
 
 
-# def add_user_course(user, transaction, data):
-#     # Добавление курса пользователю
-#     user_course_data = {
-#
-#         'course_uuid': data.get('course_uuid')
-#     }
-#     serializer_user_course = UserCourseSerializer()
-
 def success_page(request):
+    """Вернуть страницу успешного платежа"""
     return render(request, 'payment/success.html')

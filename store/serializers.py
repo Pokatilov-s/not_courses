@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from forge.models import Course, Category
 from .models import UserCourse, TransactionsDetails
+from .servises.validate_records_db import check_user_enrollment
 
 
 class ReadOnlyCategorySerializer(serializers.ModelSerializer):
@@ -22,28 +23,8 @@ class ReadOnlyCourseSerializer(serializers.ModelSerializer):
 class UserCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCourse
-        fields = ('course_uuid', 'status', 'user_uuid')
-        read_only_fields = ('uuid', 'user_uuid')
-
-    def create(self, validated_data):
-        # Вытаскиваем пользователя из контекста запроса
-        user = self.context['request'].user
-        validated_data['user_uuid'] = user
-        course = validated_data.get('course_uuid')
-        # Проверка уникальности записи
-        if UserCourse.objects.filter(user_uuid=user, course_uuid=course).exists():
-            error_message = {
-                "non field errors": {
-                    "message": 'The user is already enrolled in a course.',
-                    "details": {
-                        "user_uuid": user.uuid,
-                        "course_uuid": course.uuid
-                    }
-                 }
-            }
-            raise serializers.ValidationError(error_message)
-
-        return super().create(validated_data)
+        fields = ('course_uuid', 'status', 'user_uuid', 'transaction_uuid')
+        read_only_fields = ('uuid',)
 
 
 class CoursesAddedUserSerializer(serializers.Serializer):

@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from forge.models import Course
 from custom_user.models import User
+from store.servises.managers_models import UserCourseManager
 
 
 class TransactionsDetails(models.Model):
@@ -36,3 +37,5 @@ class UserCourse(models.Model):
         indexes = [
             models.Index(fields=['user_uuid'])
         ]
+
+    objects = UserCourseManager()
