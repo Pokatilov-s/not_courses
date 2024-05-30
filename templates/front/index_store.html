@@ -3,22 +3,21 @@
 
 {% block content %}
     <div class="container mt-4">
-    <div class="row">
-        <!-- Категории -->
-        <div class="col-md-3">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">Категории</a>
-                {% for category in categories %}
-                    <a href="#" class="list-group-item list-group-item-action">{{ category.title }}</a>
-                {% endfor %}
+        <div class="row">
+            <!-- Категории -->
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">Категории</a>
+                    {% for category in categories %}
+                        <a href="#" class="list-group-item list-group-item-action">{{ category.title }}</a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
 
-        <!-- Курсы -->
-        <div class="col-md-9">
-            <div class="row">
-                {% for course in courses %}
-                <div class="col-md-4 mb-4">
+            <!-- Курсы -->
+            <div class="col-md-9">
+                <div class="grid-container">
+                    {% for course in courses %}
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title">{{ course.title }}</h5>
@@ -26,16 +25,46 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <a href="{% url 'course_detail' course.uuid %}" class="btn btn-sm btn-outline-secondary" target="_blank">Подробнее</a>
-                            <div>
-                                <small class="text-muted">{{ course.price }} р.</small>
+                            <div class="price-button-container d-flex align-items-center">
+                                <small class="text-muted me-2">{{ course.price }} р.</small>
                                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'payment_page' %}?uuid={{course.uuid}}'">Купить</button>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
-    </div>
+
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .price-button-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        .price-button-container .text-muted {
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        .card-body {
+            flex-grow: 1;
+        }
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 {% endblock %}
