@@ -1,4 +1,6 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import ReadOnlyModelViewSet
@@ -18,6 +20,10 @@ class CoursesReadOnlyViewSet(ReadOnlyModelViewSet):
     """API endpoint для получения объекта или списка объектов модели Course в режиме ReadOnly"""
     queryset = get_list_published_courses()
     serializer_class = ReadOnlyCourseSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['category', 'price']
+    search_fields = ['title', 'description']
+    ordering_fields = ['price']
 
 
 class AddCourseToUser(CreateAPIView):

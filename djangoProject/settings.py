@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.postgres',  # !!!
+    'django.contrib.postgres',
 
     "store.apps.StoreConfig",
     "custom_user.apps.CustomUserConfig",
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "rest_framework.authtoken",
+    'django_filters',
     "djoser",
     'drf_spectacular',
     'drf_spectacular_sidecar',

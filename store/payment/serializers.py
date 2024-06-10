@@ -10,12 +10,10 @@ class PaymentSerializer(serializers.Serializer):
     expiry_date = serializers.CharField(max_length=5)
     course_uuid = serializers.UUIDField()
 
-
     def validate_bank(self, value):
         if value not in ['Банк у обочины', 'Банк №101', 'Банк МММ']:
             raise serializers.ValidationError('Не разрешённый банк')
         return value
-
 
     def validate_card_number(self, value):
         if len(value) not in (13, 14, 15, 16) or not value.isdigit():
@@ -24,12 +22,10 @@ class PaymentSerializer(serializers.Serializer):
                                               'и иметь длину от 13 до 16 символов')
         return value
 
-
     def validate_cvv(self, value):
         if len(value) != 3 or not value.isdigit():
             raise serializers.ValidationError('Некорректный CVV код, должен состоять из трёх цифр')
         return value
-
 
     def validate_expiry_date(self, value):
         current_data = dt.datetime.today().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -40,7 +36,6 @@ class PaymentSerializer(serializers.Serializer):
             raise serializers.ValidationError('Не корректный срок действия, должен быть в формате MM/YY '
                                               'и быть больше текущей даты')
         return value
-
 
     def validate_course_uuid(self, value):
         if not check_existence_this_course(pk=value, status='published'):

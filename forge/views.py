@@ -1,5 +1,7 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics, status
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import CourseSerializer, StatusCourseSerializer
@@ -11,6 +13,10 @@ class ForgeCourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ('status', 'category', 'price', 'created_at', 'updated_at', 'students_qty', 'reviews_qty')
+    search_fields = ('title', 'description')
+    ordering_fields = ('status', 'category', 'price', 'created_at', 'updated_at', 'students_qty', 'reviews_qty')
 
     def perform_create(self, serializer):
         """Создание курса с привязкой автора"""
@@ -18,8 +24,7 @@ class ForgeCourseViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Получение списка курсов принадлежащих автору"""
-        status_curse = self.request.query_params.get('status')
-        return get_list_courses_owned_by_author(self.request.user, status=status_curse)
+        return get_list_courses_owned_by_author(self.request.user)
 
     def retrieve(self, request, *args, **kwargs):
         """Получение курса принадлежащего втору"""
